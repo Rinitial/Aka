@@ -14,7 +14,9 @@ config = {
     'database': 'aka',       # Nama database yang digunakan
     'port': 3306             # Port default MySQL
 }
-
+# Inisialisasi variabel global
+recursive_times = []
+iterative_times = []
 # Fungsi untuk mengambil data merek (Brand) dari tabel 'ramen'
 def fetch_brands():
     try:
@@ -50,11 +52,18 @@ def iterative_search(brands, target):
 
 # Fungsi untuk menampilkan grafik perbandingan waktu pencarian di UI
 def plot_line_chart_on_ui(recursive_times, iterative_times):
+    for widget in graph_frame.winfo_children():
+        widget.destroy()  # Menghapus grafik sebelumnya di dalam frame
+
     fig, ax = plt.subplots(figsize=(8, 6))  # Membuat figur grafik dengan ukuran 8x6 inci
-    ax.plot(range(1, len(recursive_times) + 1), recursive_times, 
-            label="Recursive Search", color='red', marker='o')  # Garis merah untuk pencarian rekursif
-    ax.plot(range(1, len(iterative_times) + 1), iterative_times, 
-            label="Iterative Search", color='blue', marker='o')  # Garis biru untuk pencarian iteratif
+
+    if recursive_times:  # Jika ada data untuk pencarian rekursif
+        ax.plot(range(1, len(recursive_times) + 1), recursive_times, 
+                label="Recursive Search", color='red', marker='o')  # Garis merah untuk pencarian rekursif
+
+    if iterative_times:  # Jika ada data untuk pencarian iteratif
+        ax.plot(range(1, len(iterative_times) + 1), iterative_times, 
+                label="Iterative Search", color='blue', marker='o')  # Garis biru untuk pencarian iteratif
 
     # Menambahkan label sumbu dan judul grafik
     ax.set_xlabel('Search #')
@@ -116,8 +125,8 @@ def handle_search(search_type):
 
 # Pengaturan UI utama
 root = tk.Tk()
-root.title("Sequential Search UI")  # Judul jendela aplikasi
-root.geometry("900x800")  # Ukuran jendela
+root.title("Sequential Search")  # Judul jendela aplikasi
+root.geometry("750x700")  # Ukuran jendela
 root.resizable(False, False)  # Jendela tidak dapat diubah ukurannya
 
 # Label dan input untuk nama merek
@@ -139,7 +148,7 @@ iterative_btn.grid(row=2, column=1, padx=10, pady=20)
 
 # Frame untuk grafik
 graph_frame = tk.Frame(root)
-graph_frame.grid(row=3, column=0, columnspan=2, padx=10, pady=20)
+graph_frame.grid(row=3, column=0, columnspan=2, padx=10, pady=15)
 
 # Menjalankan aplikasi tkinter
 root.mainloop()
