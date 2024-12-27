@@ -45,10 +45,12 @@ def recursive_search(brands, target, index=0):
 # Fungsi pencarian sekuensial iteratif
 def iterative_search(brands, target):
     time.sleep(0.05)  # Memberi jeda waktu untuk mensimulasikan pencarian
-    for brand in brands:  # Iterasi melalui setiap elemen dalam list
-        if brand == target:  # Jika merek ditemukan
+    index = 0  # Mulai dari elemen pertama
+    while index < len(brands):  # Selama indeks dalam rentang panjang list
+        if brands[index] == target:  # Jika merek ditemukan
             return True
-    return False  # Jika tidak ditemukan setelah semua iterasi
+        index += 1  # Pindah ke elemen berikutnya
+    return False  # Jika tidak ditemukan setelah semua iterasi
 
 # Fungsi untuk menampilkan grafik perbandingan waktu pencarian di UI
 def plot_line_chart_on_ui(recursive_times, iterative_times):
