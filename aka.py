@@ -14,9 +14,10 @@ config = {
     'database': 'aka',       # Nama database yang digunakan
     'port': 3306             # Port default MySQL
 }
+
 # Inisialisasi variabel global
-recursive_times = []
-iterative_times = []
+search_results = []  # Menyimpan hasil pencarian (index, brand, recursive_time, iterative_time)
+
 # Fungsi untuk mengambil data merek (Brand) dari tabel 'ramen'
 def fetch_brands():
     try:
@@ -35,118 +36,108 @@ def fetch_brands():
 
 # Fungsi pencarian sekuensial rekursif
 def recursive_search(brands, target, index=0):
-    time.sleep(0.05)  # Memberi jeda waktu untuk mensimulasikan pencarian
-    if index >= len(brands):  # Basis rekursi: jika indeks melebihi panjang list
+    if index >= len(brands):
         return False
-    if brands[index] == target:  # Jika merek ditemukan pada indeks saat ini
+    if brands[index] == target:
         return True
-    return recursive_search(brands, target, index + 1)  # Rekursi ke indeks berikutnya
+    return recursive_search(brands, target, index + 1)
 
 # Fungsi pencarian sekuensial iteratif
 def iterative_search(brands, target):
-    time.sleep(0.05)  # Memberi jeda waktu untuk mensimulasikan pencarian
-    index = 0  # Mulai dari elemen pertama
-    while index < len(brands):  # Selama indeks dalam rentang panjang list
-        if brands[index] == target:  # Jika merek ditemukan
+    for index in range(len(brands)):
+        if brands[index] == target:
             return True
-        index += 1  # Pindah ke elemen berikutnya
-    return False  # Jika tidak ditemukan setelah semua iterasi
+    return False
 
-# Fungsi untuk menampilkan grafik perbandingan waktu pencarian di UI
-def plot_line_chart_on_ui(recursive_times, iterative_times):
+# Fungsi untuk mengukur waktu pencarian dengan pengulangan
+def benchmark_search(search_function, brands, target, iterations=10000):
+    start_time = time.time()
+    for _ in range(iterations):
+        search_function(brands, target)
+    end_time = time.time()
+    return (end_time - start_time) / iterations  # Rata-rata waktu per iterasi
+
+# Fungsi untuk memperbarui grafik perbandingan waktu pencarian di UI
+def plot_line_chart_on_ui():
     for widget in graph_frame.winfo_children():
         widget.destroy()  # Menghapus grafik sebelumnya di dalam frame
 
-    fig, ax = plt.subplots(figsize=(8, 6))  # Membuat figur grafik dengan ukuran 8x6 inci
-
-    if recursive_times:  # Jika ada data untuk pencarian rekursif
-        ax.plot(range(1, len(recursive_times) + 1), recursive_times, 
-                label="Recursive Search", color='red', marker='o')  # Garis merah untuk pencarian rekursif
-
-    if iterative_times:  # Jika ada data untuk pencarian iteratif
-        ax.plot(range(1, len(iterative_times) + 1), iterative_times, 
-                label="Iterative Search", color='blue', marker='o')  # Garis biru untuk pencarian iteratif
-
-    # Menambahkan label sumbu dan judul grafik
-    ax.set_xlabel('Search #')
+    fig, ax = plt.subplots(figsize=(8, 6))
+    
+    if search_results:
+        indexes = [result['index'] for result in search_results]
+        recursive_times = [result['recursive_time'] for result in search_results]
+        iterative_times = [result['iterative_time'] for result in search_results]
+        
+        ax.plot(indexes, recursive_times, label="Recursive Search", color='red', marker='o')
+        ax.plot(indexes, iterative_times, label="Iterative Search", color='blue', marker='o')
+    
+    ax.set_xlabel('Search Index')
     ax.set_ylabel('Time (seconds)')
     ax.set_title('Recursive vs Iterative Search Time')
-    ax.legend()  # Menambahkan legenda grafik
-    ax.grid(True)  # Menambahkan grid ke grafik
-
-    # Menyematkan grafik ke dalam antarmuka tkinter
+    ax.legend()
+    ax.grid(True)
+    
     canvas = FigureCanvasTkAgg(fig, master=graph_frame)
     canvas.draw()
     canvas.get_tk_widget().pack()
 
-# Fungsi yang menangani aksi ketika tombol pencarian ditekan
-def handle_search(search_type):
-    brand_name = product_input.get()  # Mengambil input dari kotak teks
+# Fungsi untuk menangani pencarian
+def handle_search():
+    brand_name = product_input.get()
     if not brand_name:
-        messagebox.showwarning("Input Error", "Please enter a brand name.")  # Peringatan jika input kosong
+        messagebox.showwarning("Input Error", "Please enter a brand name.")
         return
 
-    brands = fetch_brands()  # Mengambil daftar merek dari database
+    brands = fetch_brands()
     if not brands:
-        messagebox.showerror("Data Error", "No brands found in the database.")  # Peringatan jika daftar kosong
+        messagebox.showerror("Data Error", "No brands found in the database.")
         return
 
-    global recursive_times, iterative_times  # Variabel global untuk menyimpan waktu pencarian
-
-    if search_type == "recursive":
-        recursive_times = []
-        for i in range(10):  # Melakukan pencarian rekursif sebanyak 10 kali
-            start_time = time.time()
-            recursive_search(brands, brand_name)
-            elapsed_time = time.time() - start_time
-            recursive_times.append(elapsed_time)
-
-        avg_time = sum(recursive_times) / len(recursive_times)  # Menghitung rata-rata waktu rekursif
-        time_output.delete(0, tk.END)
-        time_output.insert(0, f"{avg_time:.6f} seconds")  # Menampilkan rata-rata di kotak teks
-
-        messagebox.showinfo("Search Result", 
-                            f"Recursive Search completed for '{brand_name}'.\nAverage Time: {avg_time:.6f}s")
-
-    elif search_type == "iterative":
-        iterative_times = []
-        for i in range(10):  # Melakukan pencarian iteratif sebanyak 10 kali
-            start_time = time.time()
-            iterative_search(brands, brand_name)
-            elapsed_time = time.time() - start_time
-            iterative_times.append(elapsed_time)
-
-        avg_time = sum(iterative_times) / len(iterative_times)  # Menghitung rata-rata waktu iteratif
-        time_output.delete(0, tk.END)
-        time_output.insert(0, f"{avg_time:.6f} seconds")  # Menampilkan rata-rata di kotak teks
-
-        messagebox.showinfo("Search Result", 
-                            f"Iterative Search completed for '{brand_name}'.\nAverage Time: {avg_time:.6f}s")
-
-    plot_line_chart_on_ui(recursive_times, iterative_times)  # Memperbarui grafik dengan data terbaru
-
+    index = len(search_results) + 1
+    
+    iterations = 10000  # Jumlah pengulangan untuk benchmark
+    
+    # Rekursif
+    recursive_time = benchmark_search(recursive_search, brands, brand_name, iterations)
+    
+    # Iteratif
+    iterative_time = benchmark_search(iterative_search, brands, brand_name, iterations)
+    
+    # Simpan hasil
+    search_results.append({
+        'index': index,
+        'brand': brand_name,
+        'recursive_time': recursive_time,
+        'iterative_time': iterative_time
+    })
+    
+    # Tampilkan di GUI
+    time_output.delete(0, tk.END)
+    time_output.insert(0, f"Rec: {recursive_time:.6f}s, Iter: {iterative_time:.6f}s")
+    
+    plot_line_chart_on_ui()
+    messagebox.showinfo("Search Complete", f"Search completed for '{brand_name}'.")
+    
 # Pengaturan UI utama
 root = tk.Tk()
-root.title("Sequential Search")  # Judul jendela aplikasi
-root.geometry("750x700")  # Ukuran jendela
-root.resizable(False, False)  # Jendela tidak dapat diubah ukurannya
+root.title("Sequential Search")
+root.geometry("750x700")
+root.resizable(False, False)
 
-# Label dan input untuk nama merek
+# Input untuk nama merek
 tk.Label(root, text="Brand Name:").grid(row=0, column=0, padx=10, pady=10)
 product_input = tk.Entry(root, width=30)
 product_input.grid(row=0, column=1, padx=10, pady=10)
 
-# Label dan input untuk waktu pencarian
+# Output untuk waktu pencarian
 tk.Label(root, text="Running Time:").grid(row=1, column=0, padx=10, pady=10)
 time_output = tk.Entry(root, width=30)
 time_output.grid(row=1, column=1, padx=10, pady=10)
 
-# Tombol untuk pencarian rekursif dan iteratif
-recursive_btn = tk.Button(root, text="Recursive Search", command=lambda: handle_search("recursive"))
-recursive_btn.grid(row=2, column=0, padx=10, pady=20)
-
-iterative_btn = tk.Button(root, text="Iterative Search", command=lambda: handle_search("iterative"))
-iterative_btn.grid(row=2, column=1, padx=10, pady=20)
+# Tombol pencarian
+search_btn = tk.Button(root, text="Search", command=handle_search)
+search_btn.grid(row=2, column=0, columnspan=2, padx=10, pady=20)
 
 # Frame untuk grafik
 graph_frame = tk.Frame(root)
