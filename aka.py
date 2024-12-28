@@ -1,4 +1,3 @@
-# Import pustaka yang dibutuhkan
 import tkinter as tk  # Untuk membuat antarmuka GUI
 from tkinter import messagebox  # Untuk menampilkan kotak pesan di GUI
 import mysql.connector  # Untuk menghubungkan ke database MySQL
@@ -37,50 +36,68 @@ def fetch_brands():
 # Fungsi pencarian sekuensial rekursif
 def recursive_search(brands, target, index=0):
     if index >= len(brands):
-        return False
+        return -1
     if brands[index] == target:
-        return True
+        return index
     return recursive_search(brands, target, index + 1)
 
 # Fungsi pencarian sekuensial iteratif
 def iterative_search(brands, target):
-    for index in range(len(brands)):
+    index = 0
+    while index < len(brands):
         if brands[index] == target:
             return True
+        index += 1
     return False
 
 # Fungsi untuk mengukur waktu pencarian dengan pengulangan
-def benchmark_search(search_function, brands, target, iterations=10000):
+def benchmark_search(search_function, brands, target, iterations=1000):
     start_time = time.time()
+    result = -1
     for _ in range(iterations):
-        search_function(brands, target)
+        result = search_function(brands, target)
     end_time = time.time()
-    return (end_time - start_time) / iterations  # Rata-rata waktu per iterasi
+    return (end_time - start_time) / iterations, result  # Rata-rata waktu per iterasi dan indeks hasil
 
 # Fungsi untuk memperbarui grafik perbandingan waktu pencarian di UI
 def plot_line_chart_on_ui():
     for widget in graph_frame.winfo_children():
         widget.destroy()  # Menghapus grafik sebelumnya di dalam frame
 
-    fig, ax = plt.subplots(figsize=(8, 6))
-    
-    if search_results:
-        indexes = [result['index'] for result in search_results]
-        recursive_times = [result['recursive_time'] for result in search_results]
-        iterative_times = [result['iterative_time'] for result in search_results]
-        
-        ax.plot(indexes, recursive_times, label="Recursive Search", color='red', marker='o')
-        ax.plot(indexes, iterative_times, label="Iterative Search", color='blue', marker='o')
-    
-    ax.set_xlabel('Search Index')
-    ax.set_ylabel('Time (seconds)')
+    if not search_results:
+        return  # Tidak ada data untuk ditampilkan
+
+    fig, ax = plt.subplots(figsize=(8, 5))  # Mengatur ukuran grafik lebih kecil dibanding tampilan utama
+
+    indexes = [result['index'] for result in search_results]
+    recursive_times = [result['recursive_time'] for result in search_results]
+    iterative_times = [result['iterative_time'] for result in search_results]
+
+    ax.plot(indexes, recursive_times, label="Recursive Search", color='red', marker='o')
+    ax.plot(indexes, iterative_times, label="Iterative Search", color='blue', marker='o')
+
+    # Tambahkan nomor indeks data di bawah grafik (di sumbu x)
+    ax.set_xticks(indexes)
+    ax.set_xticklabels([str(result['position']) for result in search_results], rotation=45, fontsize=10)
+
+    # Format sumbu Y dengan notasi ilmiah atau dengan 6 angka desimal
+    ax.set_ylabel('Running Time (seconds)')
+    ax.set_yticks([round(i, 6) for i in ax.get_yticks()])  # Format sumbu Y dalam 6 angka desimal
+    ax.set_yticklabels([f'{i:.6f}' for i in ax.get_yticks()])  # Format angka menjadi 6 digit desimal
+
+    ax.set_xlabel('Search Index (Position)')
     ax.set_title('Recursive vs Iterative Search Time')
     ax.legend()
     ax.grid(True)
-    
+
     canvas = FigureCanvasTkAgg(fig, master=graph_frame)
     canvas.draw()
     canvas.get_tk_widget().pack()
+
+    # Sinkronkan waktu pencarian terakhir dengan label
+    last_result = search_results[-1]
+    time_output.delete(0, tk.END)
+    time_output.insert(0, f"Rec: {last_result['recursive_time']:.6f}s, Iter: {last_result['iterative_time']:.6f}s")
 
 # Fungsi untuk menangani pencarian
 def handle_search():
@@ -95,34 +112,32 @@ def handle_search():
         return
 
     index = len(search_results) + 1
-    
-    iterations = 10000  # Jumlah pengulangan untuk benchmark
-    
+
+    iterations = 1000  # Jumlah pengulangan untuk benchmark
+
     # Rekursif
-    recursive_time = benchmark_search(recursive_search, brands, brand_name, iterations)
-    
+    recursive_time, recursive_position = benchmark_search(recursive_search, brands, brand_name, iterations)
+
     # Iteratif
-    iterative_time = benchmark_search(iterative_search, brands, brand_name, iterations)
-    
+    iterative_time, iterative_position = benchmark_search(iterative_search, brands, brand_name, iterations)
+
     # Simpan hasil
     search_results.append({
         'index': index,
         'brand': brand_name,
         'recursive_time': recursive_time,
-        'iterative_time': iterative_time
+        'iterative_time': iterative_time,
+        'position': recursive_position if recursive_position != -1 else "Not Found"
     })
-    
+
     # Tampilkan di GUI
-    time_output.delete(0, tk.END)
-    time_output.insert(0, f"Rec: {recursive_time:.6f}s, Iter: {iterative_time:.6f}s")
-    
-    plot_line_chart_on_ui()
-    messagebox.showinfo("Search Complete", f"Search completed for '{brand_name}'.")
-    
+    plot_line_chart_on_ui()  # Update grafik dan label
+    messagebox.showinfo("Search Complete", f"Search completed for '{brand_name}' at position {recursive_position if recursive_position != -1 else 'Not Found'}.")
+
 # Pengaturan UI utama
 root = tk.Tk()
 root.title("Sequential Search")
-root.geometry("750x700")
+root.geometry("800x700")  # Memperbesar ukuran jendela agar grafik tampil penuh
 root.resizable(False, False)
 
 # Input untuk nama merek
