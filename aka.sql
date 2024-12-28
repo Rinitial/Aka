@@ -1,0 +1,56 @@
+-- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: aka
+-- ------------------------------------------------------
+-- Server version	5.5.5-10.4.24-MariaDB
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `ramen`
+--
+
+DROP TABLE IF EXISTS `ramen`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ramen` (
+  `Review #` int(11) NOT NULL,
+  `Brand` varchar(45) NOT NULL,
+  `Variety` varchar(45) NOT NULL,
+  `Style` varchar(45) NOT NULL,
+  `Country` varchar(45) NOT NULL,
+  `Stars` float NOT NULL,
+  `T` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`Review #`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ramen`
+--
+
+LOCK TABLES `ramen` WRITE;
+/*!40000 ALTER TABLE `ramen` DISABLE KEYS */;
+INSERT INTO `ramen` VALUES (1,'Men-Sunaoshi','Tonkotsu Ramen','Pack','Japan',3.75,''),(2,'Mama','Instant Noodles Chicken Green Curry Flavour','Pack','Thailand',3.75,''),(3,'Samyang Foods','Maesaengyitangmyun Baked Noodle','Pack','South Korea',5,''),(4,'Nissin','Cup Noodle Chilli Tomato','Cup','Japan',4.5,''),(5,'Nissin','Bowl Noodles Chicken Flavor','Bowl','United States',3.5,''),(6,'Sawadee','Instant Noodles Spicy Tomato Flavour','Pack','Malaysia',2.5,''),(7,'Paldo','Namja Ramyun (US Version)','Bowl','South Korea',4,''),(8,'Nissin','Soba Curry Noodles With Japanese Yakisoba Sau','Cup','Germany',3.75,''),(9,'Wu-Mu','Ramen With Simmered Pork Flavor','Pack','Taiwan',3.75,''),(10,'GaGa','Seribu 1000 Goreng Spesial','Pack','Indonesia',4,''),(11,'Sanrio','Hello Kitty Hakata Shoyutonkotsu Ramen','Bowl','Japan',3.75,''),(12,'Acecook','Comet Mori Yukino Tan-tan men','Bowl','Japan',5,''),(13,'Chencun','Braised Pork Ribs','Cup','China',3,''),(14,'Nongshim','Shin Ramyun Cup','Cup','South Korea',3.5,''),(15,'Nissin','Sabor A Carne Sopa InstantÃ¡nea Con Fideos','Pack','Colombia',3.75,''),(16,'Sainsbury\'s','Basics Instant Noodles Chicken Flavour','Pack','UK',3.25,''),(17,'Sapporo Ichiban','Pokemon Shoyu Ramen','Cup','Japan',3.5,''),(18,'Paldo','Cheese Noodle','Pack','South Korea',5,''),(19,'Ko-Lee','Go Noodles Xtreme Hot & Spicy Flavour','Pack','UK',3.75,''),(20,'Samyang Foods','Star Popeye Ramyun Snack','Pack','South Korea',4,''),(21,'Wei Lih','Whatâ€™s That? Leisure Meatballs Spicy Chicke','Pack','Taiwan',3.75,''),(22,'Myojo','Chukazanmai Guangdong Style Ramen','Pack','Japan',4.25,''),(23,'Nongshim','Shin Black Spicy Pot-au-feu Flavor Premium No','Cup','United States',5,''),(24,'ABC','Mi ABC Rasa Ayam Bawang (Onion Chicken)','Pack','Indonesia',4,''),(25,'Maruchan','Old Style Shio Ramen','Pack','Japan',3.5,''),(26,'Healtimie','Green Barley Noodle Milk Chicken Soup','Pack','Indonesia',4.25,''),(27,'Itomen','Crab Flavor Instant Ramen','Pack','Japan',4,''),(28,'Pop Bihun','Spesial Goreng Special','Pack','Indonesia',3.5,''),(29,'Koyo','Seaweed Ramen Made With Organic Noodles','Pack','United States',2.75,''),(30,'Tiger Tiger','Traveller\'s Choice Indian Tikka Masala Flavou','Pack','UK',3,''),(31,'Acecook','Jan Jan Yakisoba','Cup','Japan',3.75,''),(32,'Mr. Noodles','Noodles In A Cup Beef Simulated Flavour','Cup','Canada',1.75,''),(33,'Nissin','Donbei Curry Udon (West Japanese)','Bowl','Japan',3.25,''),(34,'Kabuto Noodles','Miso Ramen','Cup','UK',3.75,''),(35,'Unif','Man Han Feast Sichuan Chilli Eel Flavor','Bowl','Taiwan',5,''),(36,'Nissin','Chow Mein With Shrimp Chow Mein Noodles','Tray','United States',3.75,''),(37,'Mr. Noodles','Bowl Chicken Simulated Flavour','Bowl','Canada',2,''),(38,'Chewy','Rice Vermicelli Spicy Beef With Chilli Flavou','Pack','China',3.25,''),(39,'Nissin','Chanpon Ramen','Pack','Japan',4.75,''),(40,'GaGa','100 Green Chilli Soto Flavour','Pack','Indonesia',3.75,''),(41,'Samyang Foods','Chacharoni','Pack','South Korea',3.75,''),(42,'Peyang','Yakisoba','Tray','Japan',5,''),(43,'Nissin','Demae Iccho XO Sauce Seafood Flavour','Bowl','Hong Kong',4,''),(44,'Golden Wonder','The Nation\'s Noodle Beef & Tomato Flavour','Cup','UK',4.25,''),(45,'Vifon','Oriental Style Instant Vermicelli Sour Crab F','Pack','Vietnam',3.75,''),(46,'Komforte Chockolates','Savory Ramen ','Bar','United States',5,''),(47,'Golden Wheat','Korean Style Shrimp Flavour Cooking Noodle','Pack','China',3.5,''),(48,'Wu-Mu','Spicy Flavor Tomato Ramen','Pack','Taiwan',4,''),(49,'Sapporo Ichiban','Tomato & Basil Shio Ramen','Pack','Japan',4,''),(50,'Asian Thai Foods','Fatafat Vegetable Flavor','Pack','Nepal',3.75,''),(51,'Asian Thai Foods','Krrish Instant Noodles Chicken Flavor','Pack','Nepal',3.5,''),(52,'Asian Thai Foods','Preeti Instant Noodles Chicken Soup Base','Pack','Nepal',3.5,''),(53,'Asian Thai Foods','Miteri Instant Noodles Vegetable Flavor','Pack','Nepal',3.5,''),(54,'Asian Thai Foods','Rumpum Chicken Soup Base','Pack','Nepal',3.5,''),(55,'Asian Thai Foods','2pm Precooked Noodles Chicken Curry Delight','Pack','Nepal',3.5,''),(56,'Asian Thai Foods','Fatafat Chicken Flavor','Pack','Nepal',3.75,''),(57,'Asian Thai Foods','Krrish Instant Noodles Vegetable Curry Flavor','Pack','Nepal',3.5,''),(58,'Asian Thai Foods','Rumpum Vegetable Soup Base','Pack','Nepal',4.25,''),(59,'Asian Thai Foods','Miteri Instant Noodles Chicken Flavor','Pack','Nepal',4,''),(60,'Asian Thai Foods','Joker Ready To Eat Noodles','Pack','Nepal',3.25,''),(61,'Asian Thai Foods','Preeti Instant Noodles Veg Soup Base','Pack','Nepal',5,''),(62,'Asian Thai Foods','Gaurav Chicken Seasoning','Pack','Nepal',3.75,''),(63,'Tablemark','Downtown Ramen Shop Shoyu','Pack','Japan',4.75,''),(64,'Koka','Oriental Style Instant Noodles Crab Flavour','Pack','Singapore',3.75,''),(65,'Nissin','Yakisoba','Pack','Japan',5,''),(66,'Indomie','Instant Noodle Beef & Lime Flavour','Pack','Indonesia',4.25,''),(67,'Hi-Myon','Katsuo Udon','Pack','South Korea',4,''),(68,'Kamfen','E-Men Noodles Abalone Soup Flavor','Pack','Hong Kong',3.75,''),(69,'Tesco','Everyday Value Spicy Curry Flavour Noodles','Cup','UK',1.5,''),(70,'Wei Lih','Whatâ€™s That? Leisure Meatballs Chicken Flav','Pack','Taiwan',3.75,''),(71,'Nissin','Big Cup Noodles Habanero Lime Shrimp Flavor R','Cup','United States',3.5,''),(72,'Oyatsu','Baby Star Ramen Round Chikinmini','Pack','Japan',3.5,''),(73,'Lucky Me!','Special Instant Pancit Bihon With Kalamansi','Pack','Philippines',3.25,''),(74,'Campbell\'s','Hearty Noodles Chicken Flavour','Cup','Canada',2.75,''),(75,'GaGa','Mie Jepeng Goreng Rasa Ayam Lada Hitam','Pack','Indonesia',4,''),(76,'Myojo','Japanese Style Noodles Shio Flavor','Pack','United States',5,''),(77,'Samyang Foods','Ganjjampong','Bowl','South Korea',4.25,''),(78,'Maruchan','Fresh Yaki-Soba Stir Fry Noodles With Seasoni','Pack','Japan',4.25,''),(79,'Nagao Noodle','Ramen Kamen Thasos Galle Pork Bone','Pack','Japan',4.25,''),(80,'Sau Tao','Oat Noodle Sesame Oil Flavored','Pack','China',3.75,''),(81,'ABC','Selera Pedas Mi Rebus Hot Gulai Flavor','Pack','Indonesia',4.75,''),(82,'Ko-Lee','Taste Sensation Instant Noodles Curry Flavour','Pack','UK',3.75,''),(83,'Mr. Noodles','Kimchi Bowl Noodles Oriental Noodle With Soup','Bowl','Canada',2.75,''),(84,'Thai Pavilion','spicy Pad Thai Instant Noodles & Sauce','Tray','United States',4.25,''),(85,'Tokyo Noodle','Mini Instant Noodles Artificial Chicken Flavo','Pack','Japan',5,''),(86,'Nissin','Pan Asian Kitchen Sukiyaki Beef Flavor Savory','Tray','United States',3.75,''),(87,'Maitri','Vegetarian Fried Noodles (Mie Goreng)','Pack','Indonesia',4,''),(88,'Samyang Foods','Samyang Ramyun (SK Version)','Cup','South Korea',3.5,''),(89,'Mama','Oriental Style Instant Kua-Chap Clear Soup','Pack','Thailand',3.75,''),(90,'Golden Wheat','Korean Style Stew Beef Cooking Noodle','Pack','China',3.25,''),(91,'GS25','Gonghwachun Jjajangmyun','Pack','South Korea',4.5,''),(92,'Chencun','Spicy Beef','Cup','China',3.5,''),(93,'Nissin','Demae Ramen Kimchi Flavour Instant Noodle Wit','Bowl','Hong Kong',3.5,''),(94,'Nissin','Raoh Rich Soy Sauce With Roast Pork (2 Slices','Bowl','Japan',4.5,''),(95,'Nongshim','Doong Ji Authentic Korean Cold Noodles With C','Tray','South Korea',5,''),(96,'Western Family','Instant Noodles Chicken Flavour','Pack','Canada',3.5,''),(97,'Myojo','Ippei-chan Yomise No Yakisoba Teriyaki Mayo F','Tray','Japan',5,''),(98,'Batchelors','Super Noodles Mild Mexican Chilli','Pack','UK',3,''),(99,'Eat & Go','Spicy Chicken Mi Instan Cup','Cup','Indonesia',4.25,''),(100,'Baltix','Instant Noodles With Chicken Flavour Broth','Pack','Estonia',3.75,''),(101,'Baltix','Instant Noodles With Beef Flavour Broth','Pack','Estonia',3.25,''),(102,'Tropicana Slim','Low Fat Noodles Hainan Chicken','Pack','Indonesia',3.75,''),(103,'Amianda','Homely Dried Noodles - Sesame Pate','Pack','Taiwan',3.75,''),(104,'Amianda','Tachia Noodles - Hot & Spicy Sauce','Pack','Taiwan',3.5,''),(105,'Amianda','Tachia Dried Noodles - Fried Shallot','Pack','Taiwan',3.25,''),(106,'Amianda','Thin Noodles - Sesame Oil','Pack','Taiwan',4.25,''),(107,'Amianda','Hakka Flat Noodles - Satay Sauce','Pack','Taiwan',4.5,''),(108,'Amianda','Tachia Dried Noodles - Rou Zhou Meat Sauce','Pack','Taiwan',5,''),(109,'Amianda','Homely Dried Noodles - Original Flavor ','Pack','Taiwan',4,''),(110,'Amianda','Dried Noodles - Spicy Sauerkraut','Pack','Taiwan',3.25,''),(111,'Amianda','Hakka Flat Noodles - Fried Bean Sauce','Pack','Taiwan',4.25,''),(112,'Amianda','Tachia Dried Noodles - Peppery','Pack','Taiwan',3.75,''),(113,'MyKuali','Penang White Curry Noodle','Pack','Malaysia',5,''),(114,'Sawadee','Indian Curry Flavour','Pack','UK',3,''),(115,'Vina Acecook','Hao Hao Mi Goreng Shrimp & Onion Flavour','Pack','Vietnam',3.5,''),(116,'Mr. Noodles','Noodles In A Cup Chicken Simulated Flavour','Cup','Canada',1.5,''),(117,'Nissin','GooTa Demi Hamburg-Men','Cup','Japan',4.75,''),(118,'Indomie','Mi Goreng Cabe Ijo','Pack','Indonesia',4.5,''),(119,'Deshome','Aloe Noodle Sesame Sauce','Pack','Taiwan',3.25,''),(120,'Deshome','Black Eyed Beans Noodle Basil Sauce & Sesame ','Pack','Taiwan',3.5,''),(121,'Deshome','Aloe Noodle Vegetable Sauce','Pack','Taiwan',5,'');
+/*!40000 ALTER TABLE `ramen` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-12-28 22:35:20
